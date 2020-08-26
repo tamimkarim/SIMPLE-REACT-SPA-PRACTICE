@@ -3,20 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import Country from './components/Country/Country';
 
 function App() {
   const [countries, setCountries] = useState([]);
   useEffect(() =>{ 
     fetch('https://restcountries.eu/rest/v2/all')
     .then(res => res.json())
-
-    .then(data => {
-      
-      setCountries(data);
-      console.log(data);
-      const names = data.map(country => country.name);
-      console.log(names);
-    })
+    .then(data => setCountries(data))
     .catch(error => console.log(error));
   }, [])
 
@@ -25,16 +19,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h2>Countries Number : {countries.length}</h2>
-        <ul>
-          <li>
+ 
               {
-                countries.map(country => <li>{country.name}</li> )
-
+                countries.map(country => <Country country={country} key={country.alpha3Code}></Country> )
               }
-           </li>
-        </ul>
-        
-        
+
       </header>
     </div>
   );
